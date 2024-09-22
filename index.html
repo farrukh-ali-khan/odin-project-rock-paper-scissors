@@ -3,10 +3,44 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Play Rock Paper Scissors against the computer! An interactive JavaScript game."
+    />
+    <meta name="author" content="Farrukh Ali" />
     <title>The Odin Project: Rock Paper Scissors</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        margin-top: 50px;
+      }
+      button {
+        padding: 10px 20px;
+        font-size: 16px;
+        margin: 10px;
+      }
+      #score {
+        margin-top: 20px;
+        font-size: 20px;
+      }
+    </style>
   </head>
   <body>
     <h1>Project: Rock Paper Scissors</h1>
+    <p>Do you like to play the game?</p>
+    <button id="yesButton" aria-label="Start playing the game">Yes</button>
+    <button id="noButton" aria-label="Exit the game">No</button>
+
+    <div id="score">
+      <p>Score:</p>
+      <p>You: <span id="humanScore">0</span></p>
+      <p>Computer: <span id="computerScore">0</span></p>
+      <p>Ties: <span id="tieScore">0</span></p>
+    </div>
+
+    <div id="finalMessage" style="margin-top: 20px"></div>
+
     <script src="script.js" async></script>
   </body>
 </html>

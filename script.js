@@ -12,43 +12,49 @@ const getHumanChoice = () => {
   return choice;
 };
 
+const updateScoreDisplay = (scores) => {
+  document.getElementById("humanScore").textContent = scores.humanScore;
+  document.getElementById("computerScore").textContent = scores.computerScore;
+  document.getElementById("tieScore").textContent = scores.tieScore;
+};
+
+const displayFinalMessage = (scores) => {
+  const message = `Final Score - You: ${scores.humanScore}, Computer: ${scores.computerScore}, Ties: ${scores.tieScore}`;
+  document.getElementById("finalMessage").textContent = message;
+};
+
 const playRound = (humanChoice, computerChoice, scores) => {
-  const outcomes = {
-    tie: "It's a tie!",
-    win: `You win! ${
-      humanChoice.charAt(0).toUpperCase() + humanChoice.slice(1)
-    } beats ${computerChoice}.`,
-    lose: `You lose! ${
-      computerChoice.charAt(0).toUpperCase() + computerChoice.slice(1)
-    } beats ${humanChoice}.`,
-  };
+  if (humanChoice === computerChoice) {
+    scores.tieScore++;
+  } else if (
+    (humanChoice === "rock" && computerChoice === "scissors") ||
+    (humanChoice === "scissors" && computerChoice === "paper") ||
+    (humanChoice === "paper" && computerChoice === "rock")
+  ) {
+    scores.humanScore++;
+  } else {
+    scores.computerScore++;
+  }
 
-  const result =
-    humanChoice === computerChoice
-      ? (scores.tieScore++, outcomes.tie)
-      : (humanChoice === "rock" && computerChoice === "scissors") ||
-        (humanChoice === "scissors" && computerChoice === "paper") ||
-        (humanChoice === "paper" && computerChoice === "rock")
-      ? (scores.humanScore++, outcomes.win)
-      : (scores.computerScore++, outcomes.lose);
-
-  alert(result);
+  updateScoreDisplay(scores);
 };
 
 const playGame = () => {
   let scores = { humanScore: 0, computerScore: 0, tieScore: 0 };
 
-  Array.from({ length: 5 }).forEach(() =>
-    playRound(getHumanChoice(), getComputerChoice(), scores)
-  );
+  Array.from({ length: 5 }).forEach(() => {
+    const humanChoice = getHumanChoice();
+    const computerChoice = getComputerChoice();
+    playRound(humanChoice, computerChoice, scores);
+  });
 
-  alert(
-    `Final Score - You: ${scores.humanScore}, Computer: ${scores.computerScore}, Ties: ${scores.tieScore}`
-  );
+  displayFinalMessage(scores);
 
-  if (confirm("Do you want to play again?")) {
-    playGame();
-  }
+  // Reset scores and update display for the next game
+  scores = { humanScore: 0, computerScore: 0, tieScore: 0 };
 };
 
-playGame();
+document.getElementById("yesButton").addEventListener("click", playGame);
+document.getElementById("noButton").addEventListener("click", () => {
+  alert("Thanks for visiting! Goodbye!");
+});
